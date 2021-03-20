@@ -7,12 +7,13 @@ const isEmail = (email) => {
 }
 //nom
 const isNom = (nom) => {
-    const regEx = /^[A-Z][A-Za-z\é\è\ê\-]+$/;
+    const regEx = /^[A-Za-z\é\è\ê\-]+$/;
     if (nom.match(regEx)) return true;
     else return false;
 }
+//prenom
 const isPrenom = (prenom) => {
-    const regEx = /^[A-Z][A-Za-z\é\è\ê\-]+$/;
+    const regEx = /^[A-Za-z\é\è\ê\-]+$/;
     if (prenom.match(regEx)) return true;
     else return false;
 }
@@ -36,13 +37,16 @@ exports.validateSignupData =(data)=>{
         errors.email = 'Must be a valid email adress';
     }
 //nom
-    if (isEmpty(data.nom)) {errors.nom = 'Must not be empty'} 
+    if (isEmpty(data.nom)) {
+        errors.nom = 'Must not be empty'} 
     else if (!isNom(data.nom)) {
         errors.nom = 'Must be a valid name';
     }
-    if (isEmpty(data.prenom)) {errors.prenom = 'Must not be empty'} 
+    //prenom
+    if (
+        isEmpty(data.prenom)) {errors.prenom = 'Must not be empty'} 
     else if (!isPrenom(data.prenom)) {
-        errors.Prenom = 'Must be a valid prenom';
+        errors.prenom = 'Must be a valid prenom';
     }
 //mdp
     if (isEmpty(data.password)) {errors.password = 'Must not be empty'}
@@ -50,11 +54,10 @@ exports.validateSignupData =(data)=>{
         errors.password = 'Must be a valid password';
     }
 
-
+//mdp and confirmMdp
     if (data.password !== data.confirmPassword) errors.confirmPassword = "passwords must match";
     
-    if (isEmpty(data.nom)) errors.nom = 'Must not be empty';
-    if (isEmpty(data.prenom)) errors.prenom = 'Must not be empty';
+    
 
 
    
