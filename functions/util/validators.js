@@ -79,12 +79,15 @@ exports.validateloginData= (data)=>{
 }
 exports.reduceUserDetails = (data) => {
     let userDetails = {};
-    //if (!isEmpty(data.nom.trim())) userDetails.nom = data.nom;
-    //if (!isEmpty(data.prenom.trim())) userDetails.prenom = data.prenom;
+    if (!isEmpty(data.nom.trim())) userDetails.nom = data.nom;
+    if (!isEmpty(data.prenom.trim())) userDetails.prenom = data.prenom;
     if (!isEmpty(data.bio.trim())) userDetails.bio = data.bio;
     if (!isEmpty(data.universite.trim())) userDetails.universite=data.universite;
     if (!isEmpty(data.faculte.trim())) userDetails.faculte=data.faculte;
     if (!isEmpty(data.departement.trim())) userDetails.departement=data.departement;
+    if (!isEmpty(data.specialite.trim())) userDetails.specialite=data.specialite;
+    if (!isEmpty(data.niveau.trim())) userDetails.niveau=data.niveau;
+    if (!isEmpty(data.date_de_naissance.trim())) userDetails.date_de_naissance=data.date_de_naissance;
    
 
       // https://website.com

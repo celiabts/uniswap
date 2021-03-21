@@ -5,7 +5,7 @@ const config = require('../util/config.js');
 const firebase = require('firebase');
 
 const { validateSignupData, validateloginData, reduceUserDetails } = require('../util/validators');
-const { user } = require('firebase-functions/lib/providers/auth');
+const { user, UserBuilder } = require('firebase-functions/lib/providers/auth');
 firebase.initializeApp(config);
 exports.signup = (req, res) => {
   const newuser = {
@@ -264,36 +264,11 @@ exports.acceptFollowRequest = (req, res) => {
     });
   
 };
-exports.getAllAmis = (req, res) => {
-  db.collection('follows')
-    .orderBy('dateFollow', 'desc')
-    .get()
-    .then((data) => {
-      let follows = [];
-      data.forEach((doc) => {
-        follows.push({
-          
-    ///// followed: doc.id,
-        followed: doc.data().followed,
-      
-          //nom: doc.data().nom,
-          //createdAt: doc.data().createdAt,
-          //commentCount: doc.data().commentCount,
-          //likeCount: doc.data().likeCount,
-        //  userImage: doc.data().userImage
-        });
-      });
-      return res.json(follows);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).json({ error: err.code });
-    });
-};
+
 exports.getFollow=(req,res)=>{
     
   let userinformation = {};
-  db.doc(`/users/${req.user.email}`).get().then((doc)=>
+db.doc(`/users/${req.user.email}`).get().then((doc)=>
   {
       userinformation = doc.data();
       
@@ -302,17 +277,19 @@ exports.getFollow=(req,res)=>{
       return db
       .collection('follows')
      
-     .where('follows', '==', req.user.email )
+     .where('followed', '==', req.user.email )
      .get();
   })
   .then((data) => {
-      userinformation.followed= [];
+      userinformation.amis= [];
       data.forEach((doc) => {
 
-        userinformation.followed.push(doc.data().followed);
+        userinformation.amis.push(doc.data().follows);
+       return db.doc(`/users/${req.user.email}`).update({amis:userinformation.amis})
      
         
       });
+   
       return res.json(userinformation);
   
   })
